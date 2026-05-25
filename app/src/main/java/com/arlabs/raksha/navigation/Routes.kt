@@ -1,0 +1,13 @@
+package com.arlabs.raksha.navigation
+
+object Routes {
+    const val OnBoardingScreen = "onboarding_screen"
+    const val AuthenticationScreen = "authentication_screen"
+    const val MainScreen = "main_screen"
+    const val PhoneNumberScreen = "phone_number_screen"
+    const val OtpScreen = "otp_screen"
+    const val ProfileScreen = "profile_screen"
+    const val VerifyAccountScreen = "verify_account_screen"
+    const val SafetyTimerScreen = "safety_timer_screen"
+    const val EmergencyHubScreen = "emergency_hub_screen"
+}

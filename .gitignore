@@ -1,0 +1,30 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Firebase config (contains API keys & OAuth client IDs)
+app/google-services.json
+.firebaserc
+
+# Environment files (contains Twilio & other secrets)
+.env
+.env.*
+
+# Signing keys
+*.jks
+*.keystore
+
+# Node modules (functions)
+node_modules/

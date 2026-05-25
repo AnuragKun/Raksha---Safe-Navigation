@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Location — Raksha</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Inter, system-ui, sans-serif;
+            background: linear-gradient(180deg, #f40c5c 0%, #1a0011 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        #map { width: 100%; height: 60vh; border-radius: 0 0 24px 24px; }
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header h1 { font-size: 20px; font-weight: 700; }
+        .status-card {
+            margin: 16px;
+            padding: 18px 20px;
+            background: rgba(180, 20, 70, 0.55);
+            border-radius: 18px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #00e676;
+            animation: pulse 1.5s infinite;
+        }
+        .dot.ended { background: #f44336; animation: none; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        .label { font-size: 13px; color: rgba(255,255,255,0.65); }
+        .value { font-size: 16px; font-weight: 600; }
+        .info-grid {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .btn-row a {
+            flex: 1;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+        }
+        .btn-maps { background: rgba(255,255,255, 0.18); border: 1px solid rgba(255,255,255,0.25); }
+        .btn-directions { background: #1a73e8; }
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            gap: 16px;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top-color: #f40c5c;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 70vh;
+            gap: 12px;
+            text-align: center;
+            padding: 20px;
+        }
+        .error-state .icon { font-size: 48px; }
+        .open-app-btn {
+            display: block;
+            margin: 0 16px 16px;
+            padding: 14px;
+            background: #f40c5c;
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📍 Live Location — Raksha</h1>
+    </div>
+
+    <div id="loading-state" class="loading">
+        <div class="spinner"></div>
+        <p>Loading live location...</p>
+    </div>
+
+    <div id="error-state" class="error-state" style="display:none;">
+        <div class="icon">⚠️</div>
+        <h2>Session Not Found</h2>
+        <p style="color:rgba(255,255,255,0.6)">This link may have expired or is invalid.</p>
+    </div>
+
+    <div id="content" style="display:none;">
+        <div id="map"></div>
+        <div class="status-card">
+            <div class="status-row">
+                <div class="dot" id="status-dot"></div>
+                <span class="value" id="status-text">LIVE NOW</span>
+            </div>
+            <div class="info-grid">
+                <div>
+                    <div class="label">Tracking</div>
+                    <div class="value" id="host-name">User</div>
+                </div>
+                <div>
+                    <div class="label">Speed</div>
+                    <div class="value" id="speed-text">0 km/h</div>
+                </div>
+            </div>
+            <div class="btn-row">
+                <a id="btn-open-maps" class="btn-maps" href="#" target="_blank">📍 Open in Maps</a>
+                <a id="btn-directions" class="btn-directions" href="#" target="_blank">🧭 Directions</a>
+            </div>
+        </div>
+        <a id="open-app-link" class="open-app-btn">Open in Raksha App</a>
+    </div>
+
+    <script>
+        const pathParts = window.location.pathname.split('/');
+        const sessionId = pathParts[pathParts.length - 1];
+        let lastLat = 0, lastLng = 0;
+
+        if (!sessionId || sessionId === 'live') {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('error-state').style.display = 'flex';
+        }
+
+        document.getElementById('open-app-link').href = 'raksha://live/' + sessionId;
+
+        function updateExternalLinks(lat, lng) {
+            lastLat = lat; lastLng = lng;
+            document.getElementById('btn-open-maps').href = 'https://www.google.com/maps?q=' + lat + ',' + lng;
+            document.getElementById('btn-directions').href = 'https://www.google.com/maps/dir/?api=1&destination=' + lat + ',' + lng;
+        }
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCp1CrSIhpEQeO-AoAZmrBAx7vfBJe2jC8",
+            authDomain: "raksha-97818.firebaseapp.com",
+            projectId: "raksha-97818",
+            storageBucket: "raksha-97818.firebasestorage.app",
+            messagingSenderId: "741199930371",
+            appId: "1:741199930371:android:d85ad552a413354e56da36"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let map, marker, polyPath = [], polyline;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.5937, lng: 78.9629 },
+                zoom: 5,
+                styles: [
+                    { elementType: 'geometry', stylers: [{ color: '#1d1d35' }] },
+                    { elementType: 'labels.text.fill', stylers: [{ color: '#8ec3b9' }] },
+                    { elementType: 'labels.text.stroke', stylers: [{ color: '#1a3646' }] },
+                    { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#304a7d' }] },
+                    { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e1626' }] }
+                ],
+                disableDefaultUI: true,
+                zoomControl: true
+            });
+            polyline = new google.maps.Polyline({
+                strokeColor: '#f40c5c',
+                strokeOpacity: 0.9,
+                strokeWeight: 5,
+                map: map
+            });
+            startTracking();
+        }
+
+        function startTracking() {
+            db.collection('live_location_sessions').doc(sessionId)
+                .onSnapshot(snap => {
+                    if (!snap.exists) {
+                        document.getElementById('loading-state').style.display = 'none';
+                        document.getElementById('error-state').style.display = 'flex';
+                        return;
+                    }
+                    const data = snap.data();
+                    document.getElementById('host-name').textContent = data.hostName || 'User';
+                    const isExpired = Date.now() > (data.expiresAt || 0);
+                    const isActive = data.isActive && !isExpired;
+                    document.getElementById('status-text').textContent = isActive ? 'LIVE NOW' : 'SESSION ENDED';
+                    const dot = document.getElementById('status-dot');
+                    if (!isActive) dot.classList.add('ended');
+                    else dot.classList.remove('ended');
+                });
+
+            db.collection('live_location_sessions').doc(sessionId)
+                .collection('locations').orderBy('timestamp', 'asc')
+                .onSnapshot(snap => {
+                    if (snap.empty) return;
+                    document.getElementById('loading-state').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+
+                    const points = snap.docs.map(d => d.data());
+                    const last = points[points.length - 1];
+                    const pos = { lat: last.lat, lng: last.lng };
+
+                    if (!marker) {
+                        marker = new google.maps.Marker({ position: pos, map: map, title: 'Live Location' });
+                        map.setCenter(pos);
+                        map.setZoom(16);
+                    } else {
+                        marker.setPosition(pos);
+                        map.panTo(pos);
+                    }
+
+                    polyPath = points.map(p => ({ lat: p.lat, lng: p.lng }));
+                    polyline.setPath(polyPath);
+
+                    const speedKmh = Math.round((last.speed || 0) * 3.6);
+                    document.getElementById('speed-text').textContent = speedKmh + ' km/h';
+
+                    updateExternalLinks(last.lat, last.lng);
+                });
+        }
+    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPFuGVBsGIB7f4nYWsvPkanbTZUgoBXqM&callback=initMap"></script>
+</body>
+</html>

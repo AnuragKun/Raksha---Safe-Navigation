@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Use Case Diagram — Raksha Safety Application</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+  h1 { text-align: center; font-size: 22px; margin-bottom: 4px; color: #1a1a1a; }
+  .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 20px; }
+  .canvas { position: relative; width: 1100px; margin: 0 auto; height: 1150px; }
+
+  /* System boundary */
+  .system-box {
+    position: absolute;
+    left: 180px; top: 10px;
+    width: 700px; height: 1120px;
+    border: 2.5px solid #1565c0;
+    border-radius: 18px;
+    background: #fafafa;
+  }
+  .system-label {
+    position: absolute;
+    top: 12px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px; font-weight: 700; color: #1565c0;
+    background: #fafafa; padding: 0 15px;
+  }
+
+  /* Actor */
+  .actor {
+    position: absolute;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+  }
+  .actor svg { display: block; margin: 0 auto 4px; }
+
+  /* Use Case ellipse */
+  .uc {
+    position: absolute;
+    border: 1.8px solid #555;
+    border-radius: 50%;
+    background: #fffde7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #222;
+    padding: 4px 8px;
+    line-height: 1.25;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  /* Group labels */
+  .group-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    color: #1565c0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #90caf9;
+    padding-bottom: 2px;
+  }
+
+  /* SVG connections */
+  svg.lines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1100px; height: 1150px;
+    pointer-events: none;
+  }
+  svg.lines line { stroke: #555; stroke-width: 1.2; }
+  svg.lines .dashed { stroke-dasharray: 6,3; stroke: #888; }
+  svg.lines text { font-size: 9px; fill: #888; font-style: italic; font-family: 'Segoe UI', sans-serif; }
+
+  .legend {
+    display: flex; gap: 25px; justify-content: center; margin-top: 12px;
+    font-size: 11px; color: #666; width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .legend .item { display: flex; align-items: center; gap: 5px; }
+</style>
+</head>
+<body>
+<h1>Use Case Diagram — Raksha Safety Application</h1>
+<div class="subtitle">UML Use Case Diagram — Complete System</div>
+
+<div class="canvas">
+  <!-- System boundary -->
+  <div class="system-box">
+    <div class="system-label">Raksha System</div>
+  </div>
+
+  <svg class="lines">
+    <!-- ===== USER ASSOCIATIONS ===== -->
+    <!-- User → UC1 Sign In -->
+    <line x1="120" y1="200" x2="245" y2="85"/>
+    <!-- User → UC2 Verify Phone -->
+    <line x1="120" y1="200" x2="245" y2="140"/>
+    <!-- User → UC3 Manage Profile -->
+    <line x1="120" y1="200" x2="245" y2="195"/>
+    <!-- User → UC4 Search Dest -->
+    <line x1="110" y1="280" x2="245" y2="290"/>
+    <!-- User → UC5 View Safe Route -->
+    <line x1="110" y1="280" x2="245" y2="345"/>
+    <!-- User → UC6 Danger Zones -->
+    <line x1="110" y1="280" x2="245" y2="400"/>
+    <!-- User → UC7 Start Nav -->
+    <line x1="110" y1="360" x2="245" y2="455"/>
+    <!-- User → UC8 Safe Zones -->
+    <line x1="110" y1="360" x2="245" y2="510"/>
+    <!-- User → UC9 SOS -->
+    <line x1="100" y1="530" x2="245" y2="600"/>
+    <!-- User → UC10 Timer -->
+    <line x1="100" y1="530" x2="245" y2="660"/>
+    <!-- User → UC11 Panic Overlay -->
+    <line x1="100" y1="600" x2="245" y2="720"/>
+    <!-- User → UC12 Fake Call -->
+    <line x1="100" y1="600" x2="245" y2="780"/>
+    <!-- User → UC13 Share Live -->
+    <line x1="90" y1="750" x2="245" y2="860"/>
+    <!-- User → UC15 Share Current -->
+    <line x1="90" y1="750" x2="245" y2="970"/>
+    <!-- User → UC16 Report -->
+    <line x1="85" y1="870" x2="245" y2="1035"/>
+    <!-- User → UC17 Manage Contacts -->
+    <line x1="85" y1="870" x2="245" y2="1080"/>
+    
+    <!-- ===== EMERGENCY CONTACT ASSOCIATIONS ===== -->
+    <!-- EC → UC14 View Live Location -->
+    <line x1="1010" y1="260" x2="815" y2="915"/>
+    <!-- EC → receives SOS alert (dashed) -->
+    <line x1="1010" y1="200" x2="815" y2="600" class="dashed"/>
+    <text x="930" y="400">«receives alert»</text>
+    <!-- EC → receives Timer alert (dashed) -->
+    <line x1="1010" y1="230" x2="815" y2="660" class="dashed"/>
+
+    <!-- ===== CLOUD SYSTEM ASSOCIATIONS ===== -->
+    <!-- Cloud → UC10 Timer -->
+    <line x1="1010" y1="550" x2="815" y2="660"/>
+    <!-- Cloud → UC9 SOS -->
+    <line x1="1010" y1="520" x2="815" y2="600"/>
+
+    <!-- ===== INCLUDE RELATIONSHIPS ===== -->
+    <!-- UC9 SOS --include--> Send SMS Alert -->
+    <line x1="630" y1="600" x2="630" y2="560" class="dashed"/>
+    <text x="640" y="580">«include»</text>
+    <!-- UC10 Timer --include--> Schedule Cloud Task -->
+    <line x1="630" y1="660" x2="630" y2="560" class="dashed"/>
+    <text x="640" y="640">«include»</text>
+
+    <!-- ===== EXTEND RELATIONSHIPS ===== -->
+    <!-- UC11 Panic Overlay --extend--> UC9 SOS -->
+    <line x1="530" y1="720" x2="530" y2="615" class="dashed"/>
+    <text x="535" y="670">«extend»</text>
+    <!-- UC18 SOS Widget --extend--> UC9 SOS -->
+    <line x1="420" y1="600" x2="490" y2="600" class="dashed"/>
+    <!-- UC12 Fake Call --extend--> UC11 Panic Overlay -->
+    <line x1="530" y1="775" x2="530" y2="735" class="dashed"/>
+    <text x="535" y="758">«extend»</text>
+    <!-- UC19 Timer Widget --extend--> UC10 Timer -->
+    <line x1="420" y1="660" x2="490" y2="660" class="dashed"/>
+  </svg>
+
+  <!-- ===== ACTORS ===== -->
+  <!-- User Actor -->
+  <div class="actor" style="left:55px; top:130px;">
+    <svg width="50" height="60"><circle cx="25" cy="10" r="9" stroke="#333" stroke-width="2" fill="none"/><line x1="25" y1="19" x2="25" y2="42" stroke="#333" stroke-width="2"/><line x1="8" y1="30" x2="42" y2="30" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="10" y2="58" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="40" y2="58" stroke="#333" stroke-width="2"/></svg>
+    User
+  </div>
+
+  <!-- User Actor (duplicate for lower use cases) -->
+  <div class="actor" style="left:42px; top:470px;">
+    <svg width="50" height="60"><circle cx="25" cy="10" r="9" stroke="#333" stroke-width="2" fill="none"/><line x1="25" y1="19" x2="25" y2="42" stroke="#333" stroke-width="2"/><line x1="8" y1="30" x2="42" y2="30" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="10" y2="58" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="40" y2="58" stroke="#333" stroke-width="2"/></svg>
+    User
+  </div>
+
+  <div class="actor" style="left:35px; top:690px;">
+    <svg width="50" height="60"><circle cx="25" cy="10" r="9" stroke="#333" stroke-width="2" fill="none"/><line x1="25" y1="19" x2="25" y2="42" stroke="#333" stroke-width="2"/><line x1="8" y1="30" x2="42" y2="30" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="10" y2="58" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="40" y2="58" stroke="#333" stroke-width="2"/></svg>
+    User
+  </div>
+
+  <div class="actor" style="left:30px; top:810px;">
+    <svg width="50" height="60"><circle cx="25" cy="10" r="9" stroke="#333" stroke-width="2" fill="none"/><line x1="25" y1="19" x2="25" y2="42" stroke="#333" stroke-width="2"/><line x1="8" y1="30" x2="42" y2="30" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="10" y2="58" stroke="#333" stroke-width="2"/><line x1="25" y1="42" x2="40" y2="58" stroke="#333" stroke-width="2"/></svg>
+    User
+  </div>
+
+  <!-- Emergency Contact Actor -->
+  <div class="actor" style="left:970px; top:130px;">
+    <svg width="50" height="60"><circle cx="25" cy="10" r="9" stroke="#e65100" stroke-width="2" fill="none"/><line x1="25" y1="19" x2="25" y2="42" stroke="#e65100" stroke-width="2"/><line x1="8" y1="30" x2="42" y2="30" stroke="#e65100" stroke-width="2"/><line x1="25" y1="42" x2="10" y2="58" stroke="#e65100" stroke-width="2"/><line x1="25" y1="42" x2="40" y2="58" stroke="#e65100" stroke-width="2"/></svg>
+    Emergency<br>Contact
+  </div>
+
+  <!-- Cloud System Actor -->
+  <div class="actor" style="left:968px; top:450px;">
+    <svg width="50" height="60"><circle cx="25" cy="10" r="9" stroke="#6a1b9a" stroke-width="2" fill="none"/><line x1="25" y1="19" x2="25" y2="42" stroke="#6a1b9a" stroke-width="2"/><line x1="8" y1="30" x2="42" y2="30" stroke="#6a1b9a" stroke-width="2"/><line x1="25" y1="42" x2="10" y2="58" stroke="#6a1b9a" stroke-width="2"/><line x1="25" y1="42" x2="40" y2="58" stroke="#6a1b9a" stroke-width="2"/></svg>
+    Cloud System<br><span style="font-size:9px;font-weight:400">(Firebase, Cloud Tasks,<br>Twilio)</span>
+  </div>
+
+  <!-- ===== GROUP LABELS ===== -->
+  <div class="group-label" style="left:200px; top:45px;">Authentication</div>
+  <div class="group-label" style="left:200px; top:260px;">Navigation & Safety</div>
+  <div class="group-label" style="left:200px; top:565px;">Emergency</div>
+  <div class="group-label" style="left:200px; top:830px;">Location & Sharing</div>
+  <div class="group-label" style="left:200px; top:1005px;">Community</div>
+  <div class="group-label" style="left:570px; top:565px;">Widgets</div>
+
+  <!-- ===== USE CASES ===== -->
+  <!-- Authentication Group -->
+  <div class="uc" style="left:245px; top:65px; width:200px; height:45px;">UC1: Sign In with Google</div>
+  <div class="uc" style="left:245px; top:120px; width:200px; height:45px;">UC2: Verify Phone (OTP)</div>
+  <div class="uc" style="left:245px; top:175px; width:230px; height:45px;">UC3: Manage Profile & Medical ID</div>
+
+  <!-- Navigation & Safety Group -->
+  <div class="uc" style="left:245px; top:275px; width:200px; height:42px;">UC4: Search Destination</div>
+  <div class="uc" style="left:245px; top:325px; width:250px; height:42px;">UC5: View Safe Route & Safety Score</div>
+  <div class="uc" style="left:245px; top:380px; width:230px; height:42px;">UC6: View Danger Zones on Map</div>
+  <div class="uc" style="left:245px; top:435px; width:280px; height:42px;">UC7: Start Navigation with Proximity Alerts</div>
+  <div class="uc" style="left:245px; top:490px; width:230px; height:42px;">UC8: Find Nearby Safe Zones</div>
+
+  <!-- Emergency Group -->
+  <div class="uc" style="left:490px; top:580px; width:200px; height:45px; background:#ffebee; border-color:#c62828;">UC9: Trigger Manual SOS</div>
+  <div class="uc" style="left:490px; top:640px; width:200px; height:45px; background:#f3e5f5; border-color:#6a1b9a;">UC10: Start Safety Timer</div>
+  <div class="uc" style="left:245px; top:700px; width:220px; height:45px;">UC11: Enable Panic Overlay</div>
+  <div class="uc" style="left:245px; top:758px; width:200px; height:45px;">UC12: Schedule Fake Call</div>
+
+  <!-- Internal included use case -->
+  <div class="uc" style="left:550px; top:530px; width:180px; height:35px; background:#e8eaf6; font-size:10px;">Send SMS Alert<br>(Local + Twilio + FCM)</div>
+
+  <!-- Widget Group -->
+  <div class="uc" style="left:570px; top:580px; width:170px; height:42px; background:#fff3e0; font-size:10px; left:245px;">UC18: Use SOS Widget</div>
+  <div class="uc" style="left:245px; top:640px; width:180px; height:42px; background:#fff3e0; font-size:10px;">UC19: Use Timer Widget</div>
+
+  <!-- Location & Sharing Group -->
+  <div class="uc" style="left:245px; top:845px; width:220px; height:42px;">UC13: Share Live Location</div>
+  <div class="uc" style="left:570px; top:900px; width:250px; height:42px;">UC14: View Live Location (Viewer)</div>
+  <div class="uc" style="left:245px; top:955px; width:250px; height:42px;">UC15: Share Current Location (Static)</div>
+
+  <!-- Community Group -->
+  <div class="uc" style="left:245px; top:1020px; width:200px; height:42px;">UC16: Report Incident</div>
+  <div class="uc" style="left:245px; top:1068px; width:240px; height:42px;">UC17: Manage Emergency Contacts</div>
+</div>
+
+<div class="legend">
+  <div class="item"><span style="font-size:18px">🧍</span> Actor</div>
+  <div class="item"><span style="display:inline-block;width:30px;height:18px;border:1.5px solid #555;border-radius:50%;background:#fffde7"></span> Use Case</div>
+  <div class="item"><span style="display:inline-block;width:30px;border-top:1.5px solid #555"></span> Association</div>
+  <div class="item"><span style="display:inline-block;width:30px;border-top:1.5px dashed #888"></span> «include» / «extend»</div>
+  <div class="item"><span style="display:inline-block;width:18px;height:18px;border:1.5px solid #c62828;border-radius:50%;background:#ffebee"></span> Critical Safety</div>
+</div>
+
+</body>
+</html>
